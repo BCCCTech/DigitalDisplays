@@ -7,7 +7,7 @@ accout and display those images as a slideshow upon boot of your R-Pi.
 
 Modifications to Raspbian:
 * install matchbox window manager
-* install geeqie (image viewer)
+* install feh (image viewer)
 
 Assumptions:
 * user has a ~/slideshow directory into which images will be downloaded
