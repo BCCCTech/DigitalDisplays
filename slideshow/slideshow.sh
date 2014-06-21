@@ -16,7 +16,7 @@ LOGO_IMG=~/logo.png
 DEBUG=0
 SCREEN_DIMS=$( xdpyinfo| grep dim | cut -d\  -f 7 )
 
-TWEET="~/twitter_status/tweet.py"
+TWEET=~/twitter_status/tweet.py
 
 my_host="$(hostname)"
 my_ip="$(/sbin/ifconfig  wlan0 | grep "inet addr" | cut -d: -f2 |cut -d\  -f1)"
