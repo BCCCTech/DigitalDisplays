@@ -1,0 +1,16 @@
+#!/bin/bash
+# xsession script to run slideshow in geeqie 
+
+# ref: http://www.alandmoore.com/blog/2011/11/05/creating-a-kiosk-with-linux-and-x11-2011-edition/
+
+# switch off screensaver
+xset s off
+xset s noblank
+xset -dpms
+
+# start up the image displaying script
+/home/pi/slideshow.sh 
+
+# start window manager in background
+matchbox-window-manager &
+
