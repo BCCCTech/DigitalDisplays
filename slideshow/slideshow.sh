@@ -16,8 +16,12 @@ LOGO_IMG=~/logo.png
 DEBUG=0
 SCREEN_DIMS=$( xdpyinfo| grep dim | cut -d\  -f 7 )
 
-echo "HOST: $(hostname)"
-echo "IP: $(/sbin/ifconfig  wlan0 | grep "inet addr" | cut -d: -f2 |cut -d\  -f1)"
+TWEET="~/twitter_status/tweet.py"
+
+my_host="$(hostname)"
+my_ip="$(/sbin/ifconfig  wlan0 | grep "inet addr" | cut -d: -f2 |cut -d\  -f1)"
+
+$TWEET "${my_host}: Online.  IP=${my_IP}"
 
 # returns in input variable 2 the X geometry to scale up image is input variable 1 
 # this function is currently unused
@@ -50,6 +54,8 @@ function update_images ()
     
     # if it's different, move it in place and reboot
     if [[ -n $(diff -q ~/slideshow.sh ~/slideshow.sh.new) ]] ; then
+
+      $TWEET "${my_host}: Update detected.  Installing."
       mv ~/slideshow.sh ~/slideshow.sh.old
       mv ~/slideshow.sh.new ~/slideshow.sh
       chmod 755 ~/slideshow.sh
@@ -98,4 +104,6 @@ while [[ $(exit_test) -eq 1 ]] ; do
   # Update images in slideshow folder
   [ $(exit_test) -eq 1 ] && [ $(ping_gw) -eq 1  ] &&  update_images || break
 done
+
+$TWEET "${my_host}: Exit condition detected: exit_test=$(exit_test), ping_gw=$(ping_gw)"
 
