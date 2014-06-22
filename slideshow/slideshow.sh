@@ -21,7 +21,7 @@ TWEET=~/twitter_status/tweet.py
 my_host="$(hostname)"
 my_ip="$(/sbin/ifconfig  wlan0 | grep "inet addr" | cut -d: -f2 |cut -d\  -f1)"
 
-$TWEET "${my_host}: Online.  IP=${my_IP}"
+$TWEET "${my_host}: Online.  IP=${my_ip}"
 
 # returns in input variable 2 the X geometry to scale up image is input variable 1 
 # this function is currently unused
@@ -102,7 +102,7 @@ while [[ $(exit_test) -eq 1 ]] ; do
   ln -sf $LOGO_IMG $CURR_IMG
   
   # Update images in slideshow folder
-  [ $(exit_test) -eq 1 ] && [ $(ping_gw) -eq 1  ] &&  update_images || break
+  [ $(ping_gw) -eq 1  ] &&  update_images || break
 done
 
 $TWEET "${my_host}: Exit condition detected: exit_test=$(exit_test), ping_gw=$(ping_gw)"
