@@ -1,0 +1,12 @@
+Twitter Status tool for BCCC Digital Display
+
+Borrowed from:
+http://www.makeuseof.com/tag/how-to-build-a-raspberry-pi-twitter-bot/
+
+Depends on Twython Python module (https://github.com/ryanmcgrath/twython)
+
+Requires: auth_tokens.py which contains the following values, provided by Twitter:
+ CONSUMER_KEY
+ CONSUMER_SECRET
+ ACCESS_KEY
+ ACCESS_SECRET

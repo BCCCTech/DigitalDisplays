@@ -16,8 +16,12 @@ LOGO_IMG=~/logo.png
 DEBUG=0
 SCREEN_DIMS=$( xdpyinfo| grep dim | cut -d\  -f 7 )
 
-echo "HOST: $(hostname)"
-echo "IP: $(/sbin/ifconfig  wlan0 | grep "inet addr" | cut -d: -f2 |cut -d\  -f1)"
+TWEET=~/twitter_status/tweet.py
+
+my_host="$(hostname)"
+my_ip="$(/sbin/ifconfig  wlan0 | grep "inet addr" | cut -d: -f2 |cut -d\  -f1)"
+
+$TWEET "${my_host}: Online.  IP=${my_ip}"
 
 # returns in input variable 2 the X geometry to scale up image is input variable 1 
 # this function is currently unused
@@ -42,7 +46,7 @@ function update_images ()
   # update files in SLIDE_DIR
   rm -f $SLIDE_DIR/*.{jpg,JPG,jpeg,JPEG,png,PNG}
   cd $SLIDE_DIR
-  ~/RPiSlideshowImageGetter/SlideshowImageGetter.py
+  ~/RPiSlideshowImageGetter/SlideshowImageGetter.py > /dev/null
 
   # check for an update to this file
   if [[ -e $SLIDE_DIR/slideshow.sh ]] ; then
@@ -50,6 +54,8 @@ function update_images ()
     
     # if it's different, move it in place and reboot
     if [[ -n $(diff -q ~/slideshow.sh ~/slideshow.sh.new) ]] ; then
+
+      $TWEET "${my_host}: Update detected.  Installing."
       mv ~/slideshow.sh ~/slideshow.sh.old
       mv ~/slideshow.sh.new ~/slideshow.sh
       chmod 755 ~/slideshow.sh
@@ -85,7 +91,7 @@ feh -x -Y -F -Z -R 1 $CURR_IMG &
 # run until display is killed
 while [[ $(exit_test) -eq 1 ]] ; do
   # loop through all the jpgs in SLIDE_DIR and softlink CURR_IMG to each file after DELAY
-  IMAGES=$(ls -1 $SLIDE_DIR/*.{jpg,JPG,jpeg,JPEG,png,PNG} )
+  IMAGES=$(ls -1 $SLIDE_DIR/*.{jpg,JPG,jpeg,JPEG,png,PNG} 2>/dev/null )
   for img in $IMAGES ; do
     #scale_image $img img_geo
     ln -sf $img $CURR_IMG
@@ -96,6 +102,8 @@ while [[ $(exit_test) -eq 1 ]] ; do
   ln -sf $LOGO_IMG $CURR_IMG
   
   # Update images in slideshow folder
-  [ $(exit_test) -eq 1 ] && [ $(ping_gw) -eq 1  ] &&  update_images || break
+  [ $(ping_gw) -eq 1  ] &&  update_images 
 done
+
+$TWEET "${my_host}: Exit condition detected: exit_test=$(exit_test), ping_gw=$(ping_gw)"
 
