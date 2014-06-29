@@ -13,5 +13,5 @@ Assumptions:
 * user has a ~/slideshow directory into which images will be downloaded
 * user has a dropbox account with /Pictures/slideshow directory from
     which images can be downloaded
-
+* configuration_file.py can be edited to overide default path
  

@@ -6,6 +6,7 @@ import os
 import pprint
 import shlex
 import sys
+import configuration_file
 
 from dropbox import client, rest
 
@@ -13,6 +14,12 @@ from dropbox import client, rest
 # You can find these at http://www.dropbox.com/developers/apps
 APP_KEY = 'je29wnwyzol79ag'
 APP_SECRET = 'j6gtwiq44zhv57o'
+
+# Dropbox remote directory to pull from
+try: 
+    DROPBOX_REMOTE = configuration_file.REMOTE_PATH
+except:
+    DROPBOX_REMOTE = "/Photos/slideshow"
 
 class SlideshowImageGetter(cmd.Cmd):
     TOKEN_FILE = "token_store.txt"
@@ -80,7 +87,7 @@ class SlideshowImageGetter(cmd.Cmd):
         #print 'Metadata:', metadata
         to_file.write(f.read())
 
-    def get_slides(self,slide_path="/Photos/slideshow" ):
+    def get_slides(self,slide_path=DROPBOX_REMOTE ):
         if not hasattr(self,'api_client') or self.api_client is None:
             self.do_login()
         
