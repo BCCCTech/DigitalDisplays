@@ -5,6 +5,8 @@ http://www.makeuseof.com/tag/how-to-build-a-raspberry-pi-twitter-bot/
 
 Depends on Twython Python module (https://github.com/ryanmcgrath/twython)
 
+Add this app to your account: https://api.twitter.com/oauth/authenticate?oauth_token=GGXYYKRxac4pc31EUlF44NMFekV4teKALMMuE69vc8
+
 Requires: auth_tokens.py which contains the following values, provided by Twitter:
  CONSUMER_KEY
  CONSUMER_SECRET
