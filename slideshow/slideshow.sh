@@ -26,6 +26,7 @@ function my_log ()
 {
   msg="$1"
   echo "$(date): $msg"
+  ${TWEET} "$msg"
 }
 
 # sends a message to twitter also logs.
@@ -60,7 +61,12 @@ function scale_image ()
 # download a new set of pictures
 function update_images () 
 {
+<<<<<<< HEAD
   my_log "Updating images..." 
+=======
+  # date
+
+>>>>>>> status_via_twitter
   # update files in SLIDE_DIR
   rm -f $SLIDE_DIR/*.{jpg,JPG,jpeg,JPEG,png,PNG}
   cd $SLIDE_DIR
