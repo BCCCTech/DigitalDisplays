@@ -43,6 +43,8 @@ function scale_image ()
 # download a new set of pictures
 function update_images () 
 {
+  # date
+
   # update files in SLIDE_DIR
   rm -f $SLIDE_DIR/*.{jpg,JPG,jpeg,JPEG,png,PNG}
   cd $SLIDE_DIR
@@ -86,7 +88,7 @@ img_geo=""
 ln -sf $LOGO_IMG $CURR_IMG
 feh -x -Y -F -Z -R 1 $CURR_IMG &
 # update files in SLIDE_DIR
-[ $(ping_gw) -eq 1 ] &&  update_images
+[ $(ping_gw) -eq 1  ] &&  update_images || echo "$(date) - Update skipped, no connection." >2 
 
 # run until display is killed
 while [[ $(exit_test) -eq 1 ]] ; do
@@ -102,7 +104,7 @@ while [[ $(exit_test) -eq 1 ]] ; do
   ln -sf $LOGO_IMG $CURR_IMG
   
   # Update images in slideshow folder
-  [ $(ping_gw) -eq 1  ] &&  update_images 
+  [ $(ping_gw) -eq 1  ] &&  update_images || echo "$(date) - Update skipped, no connection." >2 
 done
 
 $TWEET "${my_host}: Exit condition detected: exit_test=$(exit_test), ping_gw=$(ping_gw)"
