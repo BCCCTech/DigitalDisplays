@@ -61,12 +61,8 @@ function scale_image ()
 # download a new set of pictures
 function update_images () 
 {
-<<<<<<< HEAD
   my_log "Updating images..." 
-=======
-  # date
 
->>>>>>> status_via_twitter
   # update files in SLIDE_DIR
   rm -f $SLIDE_DIR/*.{jpg,JPG,jpeg,JPEG,png,PNG}
   cd $SLIDE_DIR
@@ -126,7 +122,7 @@ while [[ $(exit_test) -eq 1 ]] ; do
   ln -sf $LOGO_IMG $CURR_IMG
   
   # Update images in slideshow folder
-  [ $(ping_gw) -eq 1  ] &&  update_images || my_log "No Connection. Skipping update..." 
+  [ $(ping_gw) -eq 1  ] &&  update_images || my_log "No Connection. Skipping update..."  
 done
 
 tweet "Exit condition detected: exit_test=$(exit_test), ping_gw=$(ping_gw)"
