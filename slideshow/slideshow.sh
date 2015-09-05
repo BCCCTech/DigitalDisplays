@@ -12,8 +12,8 @@ xset -dpms
 DELAY=20
 CURR_IMG=~/current_slide
 SLIDE_DIR=~/slideshow
-LOGO_IMG_ORIG=~/logo_ORIG.png
 LOGO_IMG=~/logo.png
+LOGO_IMG_ORIG=${LOGO_IMG}
 LOGO_IMG_ANNO=~/logo_annotated.png
 DEBUG=0
 SCREEN_DIMS=$( xdpyinfo| grep dim | cut -d\  -f 7 )
@@ -104,12 +104,14 @@ function annotate_logo ()
   fi
 
   rm ${LOGO_IMG_ANNO}
+  ln -sf ${LOGO_IMG_ORIG} $CURR_IMG
 
   convert ${LOGO_IMG_ORIG} -fill "$txt_col" -gravity Southwest \
     -annotate +5+5 "$anno" ${LOGO_IMG_ANNO}
 
-  #cp logo_with_ip.png ~/logo.png
+  # change the variable (not the file) LOGO_IMG to the annotated copy
   LOGO_IMG=$LOGO_IMG_ANNO
+
 
 }
 
