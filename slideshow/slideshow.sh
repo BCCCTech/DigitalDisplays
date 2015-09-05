@@ -12,31 +12,32 @@ xset -dpms
 DELAY=20
 CURR_IMG=~/current_slide
 SLIDE_DIR=~/slideshow
+LOGO_IMG_ORIG=~/logo_ORIG.png
 LOGO_IMG=~/logo.png
+LOGO_IMG_ANNO=~/logo_annotated.png
 DEBUG=0
 SCREEN_DIMS=$( xdpyinfo| grep dim | cut -d\  -f 7 )
 
 TWEET=~/twitter_status/tweet.py
 
 my_host="$(hostname)"
-my_ip="$(/sbin/ifconfig  wlan0 | grep "inet addr" | cut -d: -f2 |cut -d\  -f1)"
+my_ip=$(host -t A $(hostname) | awk '{ print $NF }')
 
 # logs a message with date/time stamp
 function my_log ()
 {
   msg="$1"
   echo "$(date): $msg"
-  ${TWEET} "$msg"
+  #${TWEET} "$msg"
 }
 
 # sends a message to twitter also logs.
 function tweet ()
 {
   msg="$1"
-  $TWEET "${my_host}: $msg"
+  #$TWEET "${my_host}: $msg"
   my_log "$msg"
 }
-
 
 tweet  "Online.  IP=${my_ip}"
 
@@ -92,6 +93,26 @@ function ping_gw ()
 
 } 
 
+function annotate_logo ()
+{
+  if [[ $(ping_gw) -eq 1 ]] ; then
+    anno=$(host -t A $(hostname) | awk '{ print $NF }')
+    txt_col="#00000080"
+  else
+    anno="No Connection"
+    txt_col="red"
+  fi
+
+  rm ${LOGO_IMG_ANNO}
+
+  convert ${LOGO_IMG_ORIG} -fill "$txt_col" -gravity Southwest \
+    -annotate +5+5 "$anno" ${LOGO_IMG_ANNO}
+
+  #cp logo_with_ip.png ~/logo.png
+  LOGO_IMG=$LOGO_IMG_ANNO
+
+}
+
 # check to see if the image displaying app is still running
 function exit_test ()
 {
@@ -103,6 +124,7 @@ function exit_test ()
 img_geo=""
 # start up image slideshow appication
 #scale_image $LOGO_IMG img_geo
+annotate_logo
 ln -sf $LOGO_IMG $CURR_IMG
 feh -x -Y -F -Z -R 1 $CURR_IMG &
 # update files in SLIDE_DIR
@@ -119,6 +141,7 @@ while [[ $(exit_test) -eq 1 ]] ; do
     [ $(exit_test) -eq 1 ] || break
   done
   #scale_image $LOGO_IMG img_geo
+  annotate_logo
   ln -sf $LOGO_IMG $CURR_IMG
   
   # Update images in slideshow folder

@@ -1,5 +1,5 @@
 #!/bin/bash
-# xsession script to run slideshow in geeqie 
+# xsession script to run slideshow in feh 
 
 # ref: http://www.alandmoore.com/blog/2011/11/05/creating-a-kiosk-with-linux-and-x11-2011-edition/
 
